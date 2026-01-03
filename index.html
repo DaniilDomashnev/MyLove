@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Для тебя</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* --- 1. Основные настройки и Фон --- */
+        :root {
+            --primary-color: #dfa6a6; /* Нежный розовый */
+            --text-color: #4a4a4a;
+            --bg-gradient: linear-gradient(135deg, #fff5f5 0%, #f7e6e6 100%);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-color);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+        }
+
+        section {
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        /* Анимации при скролле */
+        .hidden {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease-out;
+        }
+
+        .visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- 2. Главный экран --- */
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #b86e6e;
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: #777;
+        }
+
+        .scroll-hint {
+            margin-top: 50px;
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+            color: var(--primary-color);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        /* --- 3. Почему ты особенная (Карточки) --- */
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            max-width: 800px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            width: 250px;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        /* --- 4. Воспоминания (Фото) --- */
+        .memory-block {
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        .photo-frame {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transform: rotate(-2deg); /* Легкий наклон для стиля */
+            margin-bottom: 15px;
+        }
+        
+        .photo-frame:nth-child(even) {
+            transform: rotate(2deg);
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            display: block;
+        }
+
+        .caption {
+            font-style: italic;
+            color: #888;
+            margin-top: 10px;
+        }
+
+        /* --- 5. Письмо --- */
+        .letter-container {
+            background: white;
+            padding: 40px;
+            max-width: 600px;
+            border-radius: 2px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+            text-align: left;
+            position: relative;
+            line-height: 1.8;
+        }
+
+        /* Эффект бумаги */
+        .letter-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 5px;
+            background: var(--primary-color);
+            opacity: 0.5;
+        }
+
+        /* --- 6. Интерактив --- */
+        .btn-surprise {
+            padding: 15px 40px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            transition: background 0.3s;
+            box-shadow: 0 5px 15px rgba(223, 166, 166, 0.4);
+        }
+
+        .btn-surprise:hover {
+            background: #c98888;
+        }
+
+        .hidden-message {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #b86e6e;
+            display: none; /* Скрыто по умолчанию */
+        }
+        
+        .heart-animation {
+            font-size: 4rem;
+            display: none;
+            animation: pulse 0.8s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- 7. Финал --- */
+        .final-phrase {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        /* --- Музыкальная кнопка --- */
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            z-index: 1000;
+            font-size: 24px;
+            transition: transform 0.2s;
+        }
+        
+        .music-control:hover {
+            transform: scale(1.1);
+        }
+
+    </style>
+</head>
+<body>
+
+    <section class="hero hidden">
+        <h1>Я сделал это для тебя</h1>
+        <p>Потому что ты — моя самая важная причина улыбаться.</p>
+        <div class="scroll-hint">↓</div>
+    </section>
+
+    <section class="hidden">
+        <h2 style="margin-bottom: 40px;">Почему ты?</h2>
+        <div class="cards-container">
+            <div class="card">
+                <h3>Твой смех</h3>
+                <p>Обожаю, как ты смеешься над моими глупыми шутками. Это делает меня счастливым.</p>
+            </div>
+            <div class="card">
+                <h3>Твоя поддержка</h3>
+                <p>Даже когда у меня всё валится из рук, ты умеешь найти нужные слова.</p>
+            </div>
+            <div class="card">
+                <h3>Уют</h3>
+                <p>С тобой просто спокойно. Не нужно притворяться кем-то другим.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="hidden">
+        <h2>Лучшая Девушка</h2>
+        
+        <div class="memory-block">
+            <div class="photo-frame">
+                <img src="you.jpg" alt="Воспоминание">
+            </div>
+            <p class="caption">Ты )))</p>
+        </div>
+
+        </section>
+
+    <section class="hidden">
+        <div class="letter-container">
+            <h3>Привет...</h3>
+            <p>
+                Я долго думал, как сказать тебе, что я чувствую, и решил написать это здесь. <br><br>
+                Знаешь, в мире столько шума, но когда ты рядом, всё затихает. Ты для меня не просто девушка, ты — мой лучший друг и мой дом. <br><br>
+                Спасибо тебе за то, какая ты есть. Настоящая.
+            </p>
+            <p style="text-align: right; font-weight: 600; margin-top: 30px;">— Твой Я</p>
+        </div>
+    </section>
+
+    <section class="hidden">
+        <h2>Маленький секрет</h2>
+        <p style="margin-bottom: 20px;">Нажми на кнопку</p>
+        <button class="btn-surprise" id="surprise-btn">Нажми меня</button>
+        
+        <div class="heart-animation" id="heart">❤️</div>
+        <p class="hidden-message" id="msg">Я люблю тебя! (Сильно)</p>
+    </section>
+
+    <section class="hidden" style="height: 50vh;">
+        <p class="final-phrase">Можно я буду рядом?</p>
+    </section>
+
+    <script>
+        // --- Логика анимации при скролле ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        });
+
+        const hiddenElements = document.querySelectorAll('.hidden');
+        hiddenElements.forEach((el) => observer.observe(el));
+
+        // --- Логика музыки ---
+        const musicBtn = document.getElementById('music-btn');
+        const audio = document.getElementById('bg-music');
+        let isPlaying = false;
+
+        musicBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+                musicBtn.textContent = '🎵'; // Значок ноты
+            } else {
+                audio.play();
+                musicBtn.textContent = '⏸️'; // Значок паузы
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // --- Логика кнопки сюрприза ---
+        const surpriseBtn = document.getElementById('surprise-btn');
+        const heart = document.getElementById('heart');
+        const msg = document.getElementById('msg');
+
+        surpriseBtn.addEventListener('click', () => {
+            surpriseBtn.style.display = 'none'; // Скрываем кнопку
+            heart.style.display = 'block'; // Показываем сердце
+            msg.style.display = 'block'; // Показываем текст
+            
+            // Добавим конфетти (простая эмуляция через JS не нужна, чтобы не грузить код,
+            // эмоция уже создана сменой состояния)
+        });
+    </script>
+</body>
+</html>
